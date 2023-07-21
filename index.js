@@ -5,11 +5,13 @@ const fs = require("fs")
 const https = require("https")
 
 
+require("./startup/logs")()
 require("./startup/routes")(app)
 
 
 const PORT = process.env.PORT | 3000
 
+// loading ssl key and certificate
 const httpsOptions = {
     key: fs.readFileSync("./ssl/key.pem"),
     cert: fs.readFileSync('./ssl/cert.pem')

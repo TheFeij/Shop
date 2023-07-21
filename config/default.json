@@ -1,0 +1,7 @@
+{
+  "ApplicationName": "simple-shop",
+  "Description": "A simple shop app where users can signup and add their products and see other products",
+  "Database": {
+    "connectionString": "mongodb://0.0.0.0:27017/simple-shop"
+  }
+}
