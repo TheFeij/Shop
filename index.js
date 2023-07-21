@@ -6,9 +6,10 @@ const https = require("https")
 
 
 require("./startup/logs")()
+require("./startup/database")()
 require("./startup/routes")(app)
 
-
+// get the port number from environment variables. if not defined set it to 3000
 const PORT = process.env.PORT | 3000
 
 // loading ssl key and certificate
@@ -18,7 +19,7 @@ const httpsOptions = {
 };
 
 
-// A HTTPS listener on port 4000 that points to the Express app
+// An HTTPS listener on port 4000 that points to the Express app
 // Used a callback function to tell when the server is created.
 https
     .createServer(httpsOptions, app)
