@@ -4,7 +4,8 @@ require("winston-transport")
 require("winston-mongodb")
 
 
-
+// a function to add transports to winston and add two listeners for uncaughtExceptions
+// and unhandledRejections
 module.exports = function(){
 
     // adding console, file and mongodb transports to winston

@@ -4,7 +4,7 @@ const router = express.Router()
 
 
 
-// a route handler for the home page displaying greeting message
+// a route handler for the home page displaying a greeting message
 router.get("/", (req,res)=>{
     res.send("Hello! Welcome To Our Shop!")
 })
