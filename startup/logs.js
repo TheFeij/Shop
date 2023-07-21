@@ -19,14 +19,14 @@ module.exports = function(){
     // catching uncaught exceptions in the app outside the scope of express
     // (exceptions in the scope of express will be handled by a middleware function)
     process.on("uncaughtException", (ex) => {
-        winston.log(ex.message, ex)
+        winston.error(ex.message, ex)
         process.exit(1)
     })
 
     // catching unhandled promise rejections in the app outside the scope of express
     // (rejections in the scope of express will be handled by a middleware function)
     process.on("uncaughtException", (ex) => {
-        winston.log(ex.message, ex)
+        winston.error(ex.message, ex)
         process.exit(1)
     })
 }
