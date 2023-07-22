@@ -19,6 +19,9 @@ router.post("/", asyncMiddleware(async (req, res) => {
     if(!user){
         return res.status(400).send("invalid email or password")
     }
+    if(user.isVerified === false){
+        return res.status(403).send("account not verified")
+    }
 
     // check if the provided password is correct or not
     const result = await bcrypt.compare(req.body.password, user.password)
