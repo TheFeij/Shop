@@ -86,6 +86,22 @@ userSchema.methods.sendVerificationEmail = async function() {
     await transporter.sendMail(mailOptions);
 }
 
+/**
+ * a method to generate a refresh token
+ * @return {*}
+ */
+userSchema.methods.generateRefreshToken = function (){
+    return jwt.sign({id: this._id}, process.env.JWT_PRIVATE_KEY, {expiresIn: "12h"})
+}
+
+/**
+ * a method to generate a short-lived access token
+ * @return {*}
+ */
+userSchema.methods.generateAccessToken = function (){
+    return jwt.sign({id: this._id}, process.env.JWT_PRIVATE_KEY, {expiresIn: "10m"})
+}
+
 
 // creating our user model
 const UserModel = mongoose.model("user", userSchema)
