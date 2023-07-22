@@ -4,6 +4,27 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer")
 const jwt = require("jsonwebtoken")
 
+// defining product subSchema
+const productSubSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 1,
+        maxLength: 50,
+    },
+    description: {
+        type: String,
+        required: true,
+        trim: true,
+        minLength: 1,
+        maxLength: 1024,
+    },
+    createdAt: {
+        type: Date,
+        required: true
+    }
+})
 
 // defining user schema
 const userSchema = new mongoose.Schema({
@@ -43,7 +64,8 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-})
+    products: [productSubSchema]
+}, {timestamps: true})
 
 /**
  * a method to hash user's password

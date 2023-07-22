@@ -22,11 +22,7 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now()
-    }
-})
+}, {timestamps: true})
 
 // creating our product model
 const ProductModel = mongoose.model("product", productSchema)
