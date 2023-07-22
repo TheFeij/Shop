@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const Joi = require("joi")
 
 
 // defining user schema
@@ -42,4 +43,43 @@ const userSchema = new mongoose.Schema({
 const UserModel = mongoose.model("user", userSchema)
 
 
+/**
+ * a function to validate a user object received from the client
+ * in the sign-up process
+ * @param userObject user object to be validated
+ * @return {Joi.ValidationResult<any>}
+ */
+function validateUser(userObject){
+    const schema = Joi.object({
+        firstname: Joi
+            .string()
+            .required()
+            .min(2)
+            .max(30),
+        lastname: Joi
+            .string()
+            .required()
+            .min(2)
+            .max(30),
+        email: Joi
+            .string()
+            .required()
+            .email()
+            .min(5)
+            .max(255),
+        password: Joi
+            .string()
+            .required()
+            .min(8)
+            .max(1024),
+        isVerified: Joi
+            .boolean()
+            .default(false)
+    })
+
+    return schema.validate(userObject)
+}
+
+
 module.exports.UserModel = UserModel
+module.exports.validateUser = validateUser
