@@ -5,11 +5,10 @@ const fs = require("fs")
 const https = require("https")
 
 
+require('dotenv').config();
 require("./startup/routes")(app)
 require("./startup/logs")()
 require("./startup/database")()
-
-
 
 
 // get the port number from environment variables. if not defined, set it to 3000

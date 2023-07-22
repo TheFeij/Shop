@@ -1,9 +1,8 @@
 const mongoose = require("mongoose")
 const Joi = require("joi")
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
 const nodemailer = require("nodemailer")
-const config = require("config")
+const jwt = require("jsonwebtoken")
 
 
 // defining user schema
@@ -44,11 +43,6 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    verificationToken: {
-        type: String,
-        length: 32
-    }
-    // other properties to be added
 })
 
 /**
@@ -61,13 +55,6 @@ userSchema.methods.hashPassword = async function(){
 }
 
 /**
- * a method to set a verification token for the user
- */
-userSchema.methods.setVerificationToken = function(){
-    this.verificationToken = crypto.randomBytes(32).toString("hex")
-}
-
-/**
  * a method to send a verification email to the user
  * @return {Promise<void>}
  */
@@ -75,22 +62,27 @@ userSchema.methods.sendVerificationEmail = async function() {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: config.get("Email.username"),
-            pass: config.get("Email.password"),
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD,
         },
     });
 
+    // creating a verification token
+    const verificationToken = jwt.sign({email: this.email},
+        process.env.JWT_PRIVATE_KEY, {expiresIn: "1d"})
+
     const mailOptions = {
-        from: config.get("Email.username"),
+        from: process.env.EMAIL_USERNAME,
         to: this.email,
         subject: 'Email Verification',
         html: `
                 <p>Hello,</p>
                 <p>Please click the following link to verify your email:</p>
-                <a href="https://localhost:3000/verify?token=${this.verificationToken}">Verify Email</a>
+                <a href="https://localhost:3000/verify?token=${verificationToken}">Verify Email</a>
                 `,
     };
 
+    // sending the email
     await transporter.sendMail(mailOptions);
 }
 

@@ -29,8 +29,6 @@ router.post("/", asyncMiddleware(async (req, res) => {
 
     // hashing user password
     await user.hashPassword()
-    // setting a verification token for user
-    user.setVerificationToken()
     // saving user to the database
     await user.save()
     // send the verification email

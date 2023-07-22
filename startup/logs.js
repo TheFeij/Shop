@@ -1,4 +1,3 @@
-const config = require("config")
 const winston = require("winston")
 require("winston-transport")
 require("winston-mongodb")
@@ -12,7 +11,7 @@ module.exports = function(){
     winston.add(new winston.transports.Console())
     winston.add(new winston.transports.File({filename: "logsFile.log"}))
     winston.add(new winston.transports.MongoDB({
-        db: config.get("Database.connectionString"),
+        db: process.env.DB,
         level: "info"
     }))
 
