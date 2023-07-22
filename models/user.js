@@ -79,10 +79,7 @@ function validateUser(userObject){
             .string()
             .required()
             .min(8)
-            .max(1024),
-        isVerified: Joi
-            .boolean()
-            .default(false)
+            .max(255),
     })
 
     return schema.validate(userObject)
