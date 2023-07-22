@@ -18,6 +18,10 @@ const productSchema = new mongoose.Schema({
         minLength: 1,
         maxLength: 1024,
     },
+    ownerID: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    }
 })
 
 // creating our product model
