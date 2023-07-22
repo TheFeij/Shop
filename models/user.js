@@ -1,5 +1,7 @@
 const mongoose = require("mongoose")
 const Joi = require("joi")
+const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 
 
 // defining user schema
@@ -46,6 +48,22 @@ const userSchema = new mongoose.Schema({
     }
     // other properties to be added
 })
+
+/**
+ * a method to hash user's password
+ * @return {Promise<void>}
+ */
+userSchema.methods.hashPassword = async function(){
+    const salt = await bcrypt.genSalt(10)
+    this.password  = await bcrypt.hash(this.password, salt)
+}
+
+/**
+ * a method to set a verification token for the user
+ */
+userSchema.schema.methods.setVerificationToken = function(){
+    this.verificationToken = crypto.randomBytes(32).toString("hex")
+}
 
 // creating our user model
 const UserModel = mongoose.model("user", userSchema)
