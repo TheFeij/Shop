@@ -8,9 +8,9 @@ const winston = require("winston")
  * @return {(function(*, *, *): Promise<void>)|*}
  */
 module.exports = function(handler){
-    return async (req, res, next) => {
+    return async (req, res) => {
         try{
-            await handler(res, req)
+            await handler(req, res)
         } catch (ex){
             winston.error(ex.message, ex)
         }

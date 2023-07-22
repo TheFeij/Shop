@@ -5,9 +5,10 @@ const fs = require("fs")
 const https = require("https")
 
 
+require("./startup/routes")(app)
 require("./startup/logs")()
 require("./startup/database")()
-require("./startup/routes")(app)
+
 
 
 

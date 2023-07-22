@@ -1,13 +1,11 @@
 const _ = require("lodash")
-const bcrypt = require("bcrypt")
 const express = require("express")
 const router = express.Router()
-const crypto = require("crypto")
 const asyncMiddleware = require("../middlewares/async")
 const {validateUser, UserModel} = require("../models/user");
 
 
-router("/", asyncMiddleware(async (req, res) => {
+router.post("/", asyncMiddleware(async (req, res) => {
 
     // first validating user's input
     const {error} = validateUser(req.body)
@@ -25,7 +23,7 @@ router("/", asyncMiddleware(async (req, res) => {
     const user = new UserModel({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        email: req.body.name,
+        email: req.body.email,
         password: req.body.password,
     })
 
@@ -39,3 +37,6 @@ router("/", asyncMiddleware(async (req, res) => {
     // here it should send a verification email to the user
 
 }))
+
+
+module.exports = router

@@ -61,7 +61,7 @@ userSchema.methods.hashPassword = async function(){
 /**
  * a method to set a verification token for the user
  */
-userSchema.schema.methods.setVerificationToken = function(){
+userSchema.methods.setVerificationToken = function(){
     this.verificationToken = crypto.randomBytes(32).toString("hex")
 }
 
