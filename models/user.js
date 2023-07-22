@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minLength: 8,
         maxLength: 1024,
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
     // other properties to be added
 })
