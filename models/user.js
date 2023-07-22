@@ -2,6 +2,8 @@ const mongoose = require("mongoose")
 const Joi = require("joi")
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
+const nodemailer = require("nodemailer")
+const config = require("config")
 
 
 // defining user schema
@@ -65,6 +67,34 @@ userSchema.methods.setVerificationToken = function(){
     this.verificationToken = crypto.randomBytes(32).toString("hex")
 }
 
+/**
+ * a method to send a verification email to the user
+ * @return {Promise<void>}
+ */
+userSchema.methods.sendVerificationEmail = async function() {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: config.get("Email.username"),
+            pass: config.get("Email.password"),
+        },
+    });
+
+    const mailOptions = {
+        from: config.get("Email.username"),
+        to: this.email,
+        subject: 'Email Verification',
+        html: `
+                <p>Hello,</p>
+                <p>Please click the following link to verify your email:</p>
+                <a href="https://localhost:3000/verify?token=${this.verificationToken}">Verify Email</a>
+                `,
+    };
+
+    await transporter.sendMail(mailOptions);
+}
+
+
 // creating our user model
 const UserModel = mongoose.model("user", userSchema)
 
@@ -102,6 +132,8 @@ function validateUser(userObject){
 
     return schema.validate(userObject)
 }
+
+
 
 
 module.exports.UserModel = UserModel

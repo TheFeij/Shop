@@ -33,9 +33,10 @@ router.post("/", asyncMiddleware(async (req, res) => {
     user.setVerificationToken()
     // saving user to the database
     await user.save()
+    // send the verification email
+    await user.sendVerificationEmail()
 
-    // here it should send a verification email to the user
-
+    res.send("Verification email sent. Please check your inbox.")
 }))
 
 
