@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema({
     isVerified: {
         type: Boolean,
         default: false
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    verificationToken: {
+        type: String,
+        length: 32
     }
     // other properties to be added
 })
