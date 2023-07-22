@@ -125,8 +125,32 @@ function validateUser(userObject){
     return schema.validate(userObject)
 }
 
+/**
+ * a function to validate login information.
+ * it only validates data and checks if it is in the correct format
+ * it does not check if the password is correct or the user exists or not
+ * @param loginObject contains user's email and password
+ * @return {Joi.ValidationResult<any>}
+ */
+function validateLogin(loginObject){
+    const schema = Joi.object({
+        email: Joi
+            .string()
+            .required()
+            .email()
+            .min(5)
+            .max(255),
+        password: Joi
+            .string()
+            .required()
+            .min(8)
+            .max(255),
+    })
 
+    return schema.validate(loginObject)
+}
 
 
 module.exports.UserModel = UserModel
 module.exports.validateUser = validateUser
+module.exports.validateLogin = validateLogin
