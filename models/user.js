@@ -159,6 +159,13 @@ function validateUser(userObject){
  * @return {Joi.ValidationResult<any>} - The result of the validation using the Joi schema.
  */
 function validateLogin(loginObject){
+    if(loginObject === undefined){
+        const error = new Joi.ValidationError("loginObject cannot be undefined")
+        error.stack = null
+        return {
+            error: error
+        }
+    }
     const schema = Joi.object({
         email: Joi
             .string()
