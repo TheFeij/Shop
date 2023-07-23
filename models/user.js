@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");       // Mongoose for MongoDB interactions
-const Joi = require("joi");                 // Joi for data validation
-const bcrypt = require("bcrypt");           // Bcrypt for password hashing
-const nodemailer = require("nodemailer");   // Nodemailer for sending emails
-const jwt = require("jsonwebtoken");        // JSON Web Token handling
+const mongoose = require("mongoose")       // Mongoose for MongoDB interactions
+const Joi = require("joi")                 // Joi for data validation
+const bcrypt = require("bcrypt")           // Bcrypt for password hashing
+const nodemailer = require("nodemailer")   // Nodemailer for sending emails
+const jwt = require("jsonwebtoken")        // JSON Web Token handling
 
 
 

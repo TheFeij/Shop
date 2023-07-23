@@ -1,10 +1,10 @@
-const express = require("express");                            // Import Express.js web framework
-const homeRouter = require("../routes/home");                  // Import router for the home page
-const signupRouter = require("../routes/signup");              // Import router for user signup
-const verifyRouter = require("../routes/verify");              // Import router for email verification
-const loginRouter = require("../routes/login");                // Import router for user login
-const refreshTokenRouter = require("../routes/refresh-token"); // Import router for refreshing access tokens
-const productsRouter = require("../routes/products");          // Import router for handling products
+const express = require("express")                            // Import Express.js web framework
+const homeRouter = require("../routes/home")                  // Import router for the home page
+const signupRouter = require("../routes/signup")              // Import router for user signup
+const verifyRouter = require("../routes/verify")              // Import router for email verification
+const loginRouter = require("../routes/login")                // Import router for user login
+const refreshTokenRouter = require("../routes/refresh-token") // Import router for refreshing access tokens
+const productsRouter = require("../routes/products")          // Import router for handling products
 
 
 

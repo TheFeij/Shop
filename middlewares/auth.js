@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");    // Module for working with JSON Web Tokens (JWT)
+const jwt = require("jsonwebtoken")    // Module for working with JSON Web Tokens (JWT)
 
 
 

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");   // Import Mongoose for MongoDB interactions
-const winston = require("winston");     // Import Winston for logging
+const mongoose = require("mongoose")   // Import Mongoose for MongoDB interactions
+const winston = require("winston")     // Import Winston for logging
 
 
 

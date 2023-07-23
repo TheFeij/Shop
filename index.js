@@ -1,14 +1,14 @@
 // Import required modules and libraries
-const express = require("express");     // Express.js web framework
-const app = express();                  // An instance of the Express application
-const winston = require("winston");     // Logger library for logging
-const fs = require("fs");               // File system module for file operations
-const https = require("https");         // HTTPS module for creating secure server
+const express = require("express")     // Express.js web framework
+const app = express()                  // An instance of the Express application
+const winston = require("winston")     // Logger library for logging
+const fs = require("fs")               // File system module for file operations
+const https = require("https")         // HTTPS module for creating secure server
 
 
 
 // Load environment variables from the .env file using 'dotenv' package
-require('dotenv').config();
+require('dotenv').config()
 // Set up application routes by importing and calling the 'routes' module
 require("./startup/routes")(app)
 // Initialize logging configuration to capture application logs
@@ -33,6 +33,6 @@ https
     .createServer(httpsOptions, app)
     .listen(PORT, ()=>{
         winston.info(`Listening on port ${PORT}...`)
-    });
+    })
 
 
