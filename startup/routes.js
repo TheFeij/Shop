@@ -10,6 +10,7 @@ const productsRouter = require("../routes/products");          // Import router 
 
 /**
  * Function to set up Express application with routers and JSON middleware.
+ *
  * @param {Object} app - The Express application instance.
  */
 module.exports = function(app){
