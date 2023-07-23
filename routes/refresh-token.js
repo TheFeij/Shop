@@ -30,7 +30,10 @@ router.post("/", asyncMiddleware(async (req, res) => {
 
     // generate a new short-lived access token and send it to the client
     const accessToken = user.generateAccessToken()
-    res.send(accessToken)
+
+    // Set the "x-access-token" header with the access token and send it
+    res.set("x-access-token", accessToken);
+    res.send("access token created successfully")
 }))
 
 

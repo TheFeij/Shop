@@ -27,7 +27,7 @@ router.get("/", auth, asyncMiddleware(async (req, res) => {
         const user = await UserModel.findById(req.user.id)
         products = user.products
 
-        // sorting retreivd documents
+        // sorting retrieved documents
         if(sortOption)
             products.sort((a, b) => a.createdAt - b.createdAt)
         else {
@@ -35,9 +35,9 @@ router.get("/", auth, asyncMiddleware(async (req, res) => {
         }
 
         // Paginating the sorted products
-        const startIndex = (pageNumber - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        products = user.products.slice(startIndex, endIndex);
+        const startIndex = (pageNumber - 1) * pageSize
+        const endIndex = startIndex + pageSize
+        products = user.products.slice(startIndex, endIndex)
     }
 
     // sending documents requested page to the user
