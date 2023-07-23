@@ -30,8 +30,11 @@ router.post("/", asyncMiddleware(async (req, res) => {
     }
 
     // generate a long-lived refresh token and send it to the client
-    const token = user.generateRefreshToken()
-    res.send(token)
+    const refreshToken = user.generateRefreshToken()
+
+    // Set the "x-refresh-token" header with the refresh token and send it
+    res.set("x-refresh-token", refreshToken);
+    res.send("refresh token created successfully")
 }))
 
 
