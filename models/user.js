@@ -116,6 +116,13 @@ const UserModel = mongoose.model("user", userSchema)
  * @return {Joi.ValidationResult<any>} - The result of the validation using the Joi schema.
  */
 function validateUser(userObject){
+    if(userObject === undefined){
+        const error = new Joi.ValidationError("userObject cannot be undefined")
+        error.stack = null
+        return {
+            error: error
+        }
+    }
     const schema = Joi.object({
         firstname: Joi
             .string()
