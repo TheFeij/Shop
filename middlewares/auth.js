@@ -8,7 +8,7 @@ module.exports =  function(req, res, next){
         return res.status(401).send("access denied. no token provided")
     }
 
-    // verify the provided access token
+    // verify the provided access token and save the decoded object in req.user
     try {
         req.user = jwt.verify(token, process.env.JWT_PRIVATE_KEY)
         next()

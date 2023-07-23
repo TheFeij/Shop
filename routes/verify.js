@@ -11,7 +11,7 @@ router.get("/", asyncMiddleware(async (req, res) => {
     const token = jwt.verify(req.query.token, process.env.JWT_PRIVATE_KEY)
 
     // Find the user with the provided token
-    const user = await UserModel.findOne({email: token.email});
+    const user = await UserModel.findOne({_id: token.id});
 
     // if a user with the given verification token is not found
     if (!user) {

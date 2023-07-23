@@ -90,7 +90,7 @@ userSchema.methods.sendVerificationEmail = async function() {
     });
 
     // creating a verification token
-    const verificationToken = jwt.sign({email: this.email},
+    const verificationToken = jwt.sign({id: this._id},
         process.env.JWT_PRIVATE_KEY, {expiresIn: "1d"})
 
     const mailOptions = {
