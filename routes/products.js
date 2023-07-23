@@ -23,21 +23,13 @@ router.get("/", auth, asyncMiddleware(async (req, res) => {
             .sort({createdAt: sortOption})
             .select("-updatedAt")
     } else {
-        // first finding user
-        const user = await UserModel.findById(req.user.id)
-        products = user.products
-
-        // sorting retrieved documents
-        if(sortOption)
-            products.sort((a, b) => a.createdAt - b.createdAt)
-        else {
-            products.sort((a, b) => b.createdAt - a.createdAt)
-        }
-
-        // Paginating the sorted products
-        const startIndex = (pageNumber - 1) * pageSize
-        const endIndex = startIndex + pageSize
-        products = user.products.slice(startIndex, endIndex)
+        products = await ProductModel.find({
+            ownerID: req.user.id
+        })
+            .skip((pageNumber - 1) * pageSize)
+            .limit(pageSize)
+            .sort({createdAt: sortOption})
+            .select("-updatedAt")
     }
 
     // sending documents requested page to the user
@@ -45,9 +37,6 @@ router.get("/", auth, asyncMiddleware(async (req, res) => {
 }))
 
 router.post("/", auth, asyncMiddleware(async (req, res) => {
-
-    // first finding user
-    const user = await UserModel.findById(req.user.id)
 
     // validate product information provided by the client
     const {error} = validateProduct(
@@ -64,30 +53,8 @@ router.post("/", auth, asyncMiddleware(async (req, res) => {
         ownerID: req.user.id
     })
 
-    // starting a mongoose session for the transaction
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    try {
-        await session.withTransaction(async () => {
-            // saving the product
-            await product.save()
-            // updating user document and adding the new product to it
-            user.products.push(_.pick(product, ["title", "description", "createdAt"]))
-            // saving updated user to the database
-            await user.save()
-        });
-
-        // commit the transaction
-        await session.commitTransaction();
-        // end the Session
-        session.endSession();
-    } catch (error) {
-        // abort the transaction in case of an error
-        await session.abortTransaction();
-        session.endSession();
-        return res.status(500).send("saving the product failed")
-    }
-
+    // saving product to the database and sending a message to the client
+    await product.save()
     res.send("product added successfully!")
 }))
 
