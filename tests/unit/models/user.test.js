@@ -1,6 +1,6 @@
 require('dotenv').config();
 const jwt = require("jsonwebtoken")
-const {UserModel} = require("../../../models/user")
+const {UserModel, validateUser} = require("../../../models/user")
 const bcrypt = require("bcrypt")
 
 
@@ -91,3 +91,57 @@ describe("hashPassword", () => {
     })
 })
 
+describe("validateUser", () => {
+    it("should return the input object if it is valid", () => {
+        const user = {
+            firstname: "firstname",
+            lastname: "lastname",
+            email: "email@test.com",
+            password: "password"
+        }
+
+        // validating user object
+        const result = validateUser(user)
+
+        // expect result.value to match user
+        expect(result.value).toMatchObject(user)
+        // expect result.error to be undefined
+        expect(result.error).toBeUndefined()
+    })
+
+    it.each([
+        {},
+        null,
+        undefined,
+        {
+            firstname: "f",
+            lastname: "lastname",
+            email: "email@test.com",
+            password: "password"
+        },
+        {
+            firstname: "firstname",
+            lastname: "l",
+            email: "email@test.com",
+            password: "password"
+        },
+        {
+            firstname: "firstname",
+            lastname: "lastname",
+            email: "test.com",
+            password: "password"
+        },
+        {
+            firstname: "firstname",
+            lastname: "lastname",
+            email: "email@test.com",
+            password: "pass"
+        }
+    ])("should return an error object if input object is not valid", (user) => {
+        // validate user object
+        const result = validateUser(user)
+
+        // expect to have a defined error property in the result
+        expect(result.error).toBeDefined()
+    })
+})
