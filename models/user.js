@@ -1,11 +1,12 @@
-const mongoose = require("mongoose")
-const Joi = require("joi")
-const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer")
-const jwt = require("jsonwebtoken")
+const mongoose = require("mongoose");       // Mongoose for MongoDB interactions
+const Joi = require("joi");                 // Joi for data validation
+const bcrypt = require("bcrypt");           // Bcrypt for password hashing
+const nodemailer = require("nodemailer");   // Nodemailer for sending emails
+const jwt = require("jsonwebtoken");        // JSON Web Token handling
 
 
-// defining user schema
+
+// Defining user schema
 const userSchema = new mongoose.Schema({
     firstname: {
         type: String,
@@ -46,7 +47,7 @@ const userSchema = new mongoose.Schema({
 }, {timestamps: true})
 
 /**
- * a method to hash user's password
+ * Method to hash user's password
  * @return {Promise<void>}
  */
 userSchema.methods.hashPassword = async function(){
@@ -55,7 +56,7 @@ userSchema.methods.hashPassword = async function(){
 }
 
 /**
- * a method to send a verification email to the user
+ * Method to send a verification email to the user
  * @return {Promise<void>}
  */
 userSchema.methods.sendVerificationEmail = async function() {
@@ -67,10 +68,11 @@ userSchema.methods.sendVerificationEmail = async function() {
         },
     });
 
-    // creating a verification token
+    // Creating a verification token
     const verificationToken = jwt.sign({id: this._id},
         process.env.JWT_PRIVATE_KEY, {expiresIn: "1d"})
 
+    // Creating mail options
     const mailOptions = {
         from: process.env.EMAIL_USERNAME,
         to: this.email,
@@ -82,12 +84,12 @@ userSchema.methods.sendVerificationEmail = async function() {
                 `,
     };
 
-    // sending the email
+    // Sending the email
     await transporter.sendMail(mailOptions);
 }
 
 /**
- * a method to generate a refresh token
+ * Method to generate a refresh token
  * @return {*}
  */
 userSchema.methods.generateRefreshToken = function (){
@@ -95,23 +97,23 @@ userSchema.methods.generateRefreshToken = function (){
 }
 
 /**
- * a method to generate a short-lived access token
+ * Method to generate a short-lived access token
  * @return {*}
  */
 userSchema.methods.generateAccessToken = function (){
     return jwt.sign({id: this._id}, process.env.JWT_PRIVATE_KEY, {expiresIn: "10m"})
 }
 
-
-// creating our user model
+// Creating the user model using userSchema
 const UserModel = mongoose.model("user", userSchema)
 
 
+
 /**
- * a function to validate a user object received from the client
- * in the sign-up process
- * @param userObject user object to be validated
- * @return {Joi.ValidationResult<any>}
+ * Function to validate a user object received from the client during the sign-up process.
+ *
+ * @param {Object} userObject - The user object to be validated.
+ * @return {Joi.ValidationResult<any>} - The result of the validation using the Joi schema.
  */
 function validateUser(userObject){
     const schema = Joi.object({
@@ -142,11 +144,12 @@ function validateUser(userObject){
 }
 
 /**
- * a function to validate login information.
- * it only validates data and checks if it is in the correct format
- * it does not check if the password is correct or the user exists or not
- * @param loginObject contains user's email and password
- * @return {Joi.ValidationResult<any>}
+ * A function to validate login information.
+ * It only validates data and checks if it is in the correct format.
+ * It does not check if the password is correct or if the user exists or not.
+ *
+ * @param {Object} loginObject - Contains user's email and password.
+ * @return {Joi.ValidationResult<any>} - The result of the validation using the Joi schema.
  */
 function validateLogin(loginObject){
     const schema = Joi.object({
@@ -167,6 +170,8 @@ function validateLogin(loginObject){
 }
 
 
+
+// Exporting the UserModel, validateUser, and validateLogin functions for external use
 module.exports.UserModel = UserModel
 module.exports.validateUser = validateUser
 module.exports.validateLogin = validateLogin

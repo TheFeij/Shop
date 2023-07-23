@@ -1,8 +1,9 @@
-const mongoose = require("mongoose")
-const Joi = require("joi")
+const mongoose = require("mongoose")  // Mongoose for MongoDB interactions
+const Joi = require("joi")            // Joi for data validation
 
 
-// defining product schema
+
+// Defining product schema
 const productSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -24,15 +25,16 @@ const productSchema = new mongoose.Schema({
     },
 }, {timestamps: true})
 
-// creating our product model
+// Creating the product model using productSchema
 const ProductModel = mongoose.model("product", productSchema)
 
 
+
 /**
- * a function to validate the product object received from the client
- * in the process of adding a new product
- * @param productObject product object to be validated
- * @return {Joi.ValidationResult<any>}
+ * Validates the product object received from the client when adding a new product.
+ *
+ * @param {Object} productObject - The product object to be validated.
+ * @return {Joi.ValidationResult<any>} - The validation result using the Joi schema.
  */
 function validateProduct(productObject){
     const schema = Joi.object({
@@ -52,5 +54,8 @@ function validateProduct(productObject){
 }
 
 
+
+// Exporting the Mongoose ProductModel and the validateProduct function for external use.
+// Other parts of the application can access these functions through this module.
 module.exports.ProductModel = ProductModel
 module.exports.validateProduct = validateProduct
