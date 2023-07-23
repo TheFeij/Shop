@@ -1,11 +1,11 @@
 const express = require("express")
 const router = express.Router()
 const asyncMiddleware = require("../middlewares/async")
-const {UserModel} = require("../models/user");
+const {UserModel} = require("../models/user")
 const jwt = require("jsonwebtoken")
 
 
-router.post("/", asyncMiddleware(async (req, res) => {
+router.get("/", asyncMiddleware(async (req, res) => {
 
     //reading refresh token from the request's header
     const token = req.header("x-refresh-token")
@@ -32,7 +32,7 @@ router.post("/", asyncMiddleware(async (req, res) => {
     const accessToken = user.generateAccessToken()
 
     // Set the "x-access-token" header with the access token and send it
-    res.set("x-access-token", accessToken);
+    res.set("x-access-token", accessToken)
     res.send("access token created successfully")
 }))
 
