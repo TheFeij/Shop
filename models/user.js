@@ -123,6 +123,7 @@ function validateUser(userObject){
             error: error
         }
     }
+
     const schema = Joi.object({
         firstname: Joi
             .string()
@@ -166,6 +167,7 @@ function validateLogin(loginObject){
             error: error
         }
     }
+
     const schema = Joi.object({
         email: Joi
             .string()
