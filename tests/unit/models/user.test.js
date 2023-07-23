@@ -1,21 +1,18 @@
 require('dotenv').config();
 const jwt = require("jsonwebtoken")
-const {UserModel, validateUser} = require("../../../models/user")
+const {UserModel, validateUser, validateLogin} = require("../../../models/user")
 const bcrypt = require("bcrypt")
 
 
 
-// Creating a test user object
-const user = new UserModel({
-    firstname: "firstname",
-    lastname: "lastname",
-    email: "test@email.com",
-    password: "password",
-});
-
-
-
 describe("generateAccessToken", () => {
+    // Creating a test user object
+    const user = new UserModel({
+        firstname: "firstname",
+        lastname: "lastname",
+        email: "test@email.com",
+        password: "password",
+    });
 
     it("should return a valid JWT with correct payload", () => {
         // Generating an access token
@@ -46,6 +43,13 @@ describe("generateAccessToken", () => {
 })
 
 describe("generateRefreshToken", () => {
+    // Creating a test user object
+    const user = new UserModel({
+        firstname: "firstname",
+        lastname: "lastname",
+        email: "test@email.com",
+        password: "password",
+    });
 
     it("should return a valid JWT with correct payload", () => {
         // Generating a refresh token
@@ -76,6 +80,13 @@ describe("generateRefreshToken", () => {
 })
 
 describe("hashPassword", () => {
+    // Creating a test user object
+    const user = new UserModel({
+        firstname: "firstname",
+        lastname: "lastname",
+        email: "test@email.com",
+        password: "password",
+    });
 
     it("should hash password correctly", async () => {
         // getting the original password
@@ -140,6 +151,43 @@ describe("validateUser", () => {
     ])("should return an error object if input object is not valid", (user) => {
         // validate user object
         const result = validateUser(user)
+
+        // expect to have a defined error property in the result
+        expect(result.error).toBeDefined()
+    })
+})
+
+describe("validateLogin", () => {
+    it("should return the input object if it is valid", () => {
+        const login = {
+            email: "email@test.com",
+            password: "password"
+        }
+
+        // validating login object
+        const result = validateLogin(login)
+
+        // expect result.value to match login
+        expect(result.value).toMatchObject(login)
+        // expect result.error to be undefined
+        expect(result.error).toBeUndefined()
+    })
+
+    it.each([
+        {},
+        null,
+        undefined,
+        {
+            email: "test.com",
+            password: "password"
+        },
+        {
+            email: "email@test.com",
+            password: "pass"
+        }
+    ])("should return an error object if input object is not valid", (login) => {
+        // validate user object
+        const result = validateLogin(login)
 
         // expect to have a defined error property in the result
         expect(result.error).toBeDefined()
