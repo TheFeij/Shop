@@ -1,12 +1,17 @@
-const express = require("express")
-const homeRouter = require("../routes/home")
-const signupRouter = require("../routes/signup")
-const verifyRouter = require("../routes/verify")
-const loginRouter = require("../routes/login")
-const refreshTokenRouter = require("../routes/refresh-token")
-const productsRouter = require("../routes/products")
+const express = require("express");                            // Import Express.js web framework
+const homeRouter = require("../routes/home");                  // Import router for the home page
+const signupRouter = require("../routes/signup");              // Import router for user signup
+const verifyRouter = require("../routes/verify");              // Import router for email verification
+const loginRouter = require("../routes/login");                // Import router for user login
+const refreshTokenRouter = require("../routes/refresh-token"); // Import router for refreshing access tokens
+const productsRouter = require("../routes/products");          // Import router for handling products
 
-// a function to add all the routers to express
+
+
+/**
+ * Function to set up Express application with routers and JSON middleware.
+ * @param {Object} app - The Express application instance.
+ */
 module.exports = function(app){
     app.use(express.json())
     app.use("/", homeRouter)
