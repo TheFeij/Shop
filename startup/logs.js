@@ -4,8 +4,10 @@ require("winston-mongodb");          // Import Winston MongoDB's Transport for l
 
 
 
-// Function to add transports to winston and add two listeners for uncaughtExceptions
-// and unhandledRejections
+/**
+ * Function to add transports to winston and add two listeners for uncaughtExceptions
+ * and unhandledRejections
+ */
 module.exports = function(){
     // Adding console, file and mongodb transports to winston
     winston.add(new winston.transports.Console())
