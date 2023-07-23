@@ -14,5 +14,5 @@ module.exports = function(app){
     app.use("/verify", verifyRouter)
     app.use("/login", loginRouter)
     app.use("/refresh-token", refreshTokenRouter)
-    app.use("/products", productsRouter())
+    app.use("/products", productsRouter)
 }
