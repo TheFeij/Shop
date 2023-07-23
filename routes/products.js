@@ -11,12 +11,13 @@ const {ProductModel, validateProduct} = require("../models/product");
 router.get("/", auth, asyncMiddleware(async (req, res) => {
 
     // getting required parameters for the pagination
-    const pageNumber = req.query.pageNumber | 1
-    const pageSize = req.query.pageSize | 10
+    const pageNumber = req.query.pageNumber || 1
+    const pageSize = req.query.pageSize || 10
     const sortOption = req.query.newToOld ? -1 : 1
+    const all = req.query.all ? 1 : 0
 
     let products
-    if(req.query.all){
+    if(all){
         products = await ProductModel.find()
             .skip((pageNumber - 1) * pageSize)
             .limit(pageSize)

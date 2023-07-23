@@ -12,7 +12,7 @@ require("./startup/database")()
 
 
 // get the port number from environment variables. if not defined, set it to 3000
-const PORT = process.env.PORT | 3000
+const PORT = process.env.PORT || 3000
 
 // loading ssl key and certificate
 const httpsOptions = {
