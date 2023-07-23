@@ -37,6 +37,14 @@ const ProductModel = mongoose.model("product", productSchema)
  * @return {Joi.ValidationResult<any>} - The validation result using the Joi schema.
  */
 function validateProduct(productObject){
+    if(productObject === undefined){
+        const error = new Joi.ValidationError("productObject cannot be undefined")
+        error.stack = null
+        return {
+            error: error
+        }
+    }
+
     const schema = Joi.object({
         title: Joi
             .string()
