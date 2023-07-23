@@ -3,10 +3,46 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
 const asyncMiddleware = require("../middlewares/async")
-const {validateUser, UserModel} = require("../models/user");
+const {UserModel} = require("../models/user");
 const auth = require("../middlewares/auth")
 const {ProductModel, validateProduct} = require("../models/product");
 
+
+router.get("/", auth, asyncMiddleware(async (req, res) => {
+
+    // getting required parameters for the pagination
+    const pageNumber = req.query.pageNumber | 1
+    const pageSize = req.query.pageSize | 10
+    const sortOption = req.query.newToOld ? -1 : 1
+
+    let products
+    if(req.query.all){
+        products = await ProductModel.find()
+            .skip((pageNumber - 1) * pageSize)
+            .limit(pageSize)
+            .sort({createdAt: sortOption})
+            .select("-updatedAt")
+    } else {
+        // first finding user
+        const user = await UserModel.findById(req.user.id)
+        products = user.products
+
+        // sorting retreivd documents
+        if(sortOption)
+            products.sort((a, b) => a.createdAt - b.createdAt)
+        else {
+            products.sort((a, b) => b.createdAt - a.createdAt)
+        }
+
+        // Paginating the sorted products
+        const startIndex = (pageNumber - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        products = user.products.slice(startIndex, endIndex);
+    }
+
+    // sending documents requested page to the user
+    res.json(products)
+}))
 
 router.post("/", auth, asyncMiddleware(async (req, res) => {
 
