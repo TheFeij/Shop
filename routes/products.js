@@ -21,10 +21,15 @@ const { ProductModel, validateProduct } = require("../models/product") // Functi
  */
 router.get("/", auth, asyncMiddleware(async (req, res) => {
     // Getting required parameters for the pagination
-    const pageNumber = req.query.pageNumber || 1
-    const pageSize = req.query.pageSize || 10
+    let pageNumber = req.query.pageNumber || 1
+    let pageSize = req.query.pageSize || 10
     const sortOption = req.query.newToOld ? -1 : 1
     const all = req.query.all ? 1 : 0
+
+    if(pageNumber < 1 || pageSize < 1){
+        return res.status(400).send("page size and page number must greater than or equal to 1")
+    }
+
 
     let products
     if(all){
