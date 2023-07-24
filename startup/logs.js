@@ -13,7 +13,7 @@ module.exports = function(){
     winston.add(new winston.transports.Console())
     winston.add(new winston.transports.File({filename: "logsFile.log"}))
     winston.add(new winston.transports.MongoDB({
-        db: process.env.DB,
+        db: process.env.NODE_ENV === "test" ? process.env.DB_TESTS : process.env.DB,
         level: "info"
     }))
 

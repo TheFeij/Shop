@@ -10,6 +10,9 @@ const winston = require("winston")     // Import Winston for logging
  * the database is established.
  */
 module.exports = async function(){
-    await mongoose.connect(process.env.DB)
+    // checking the environment and deciding which database to connect to
+    // if in test environment connect to tests database
+    await mongoose.connect(process.env.NODE_ENV === "test" ? process.env.DB_TESTS : process.env.DB)
+
     winston.info("connected to mongodb...")
 }
