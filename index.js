@@ -27,16 +27,19 @@ const httpsOptions = {
     cert: fs.readFileSync('./ssl/cert.pem')
 };
 
-// // Creating an HTTPS server that uses the SSL key and certificate,
-// // and points to the Express app
-// const server = https
-//     .createServer(httpsOptions, app)
-//     .listen(PORT, ()=>{
-//         winston.info(`Listening on port ${PORT}...`)
-//     })
-const server = app.listen(PORT, ()=>{
+// Creating an HTTPS server that uses the SSL key and certificate,
+// and points to the Express app
+const server = https
+    .createServer(httpsOptions, app)
+    .listen(PORT, ()=>{
         winston.info(`Listening on port ${PORT}...`)
     })
+
+// // Couldn't use supertest for integration tests while using a HTTPS server because of the
+// // self signed certificate, so for integration tests should use a http server
+// const server = app.listen(PORT, ()=>{
+//         winston.info(`Listening on port ${PORT}...`)
+//     })
 
 
 
