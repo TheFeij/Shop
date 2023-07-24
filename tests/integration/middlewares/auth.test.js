@@ -4,7 +4,7 @@ const {UserModel} = require("../../../models/user");
 
 
 let server
-let user1
+let user
 let accessToken
 
 
@@ -15,7 +15,7 @@ describe("auth", () => {
         server = require("../../../index")
 
         // Creating a test user object
-        user1 = new UserModel({
+        user = new UserModel({
             firstname: "firstname1",
             lastname: "lastname1",
             email: "test1@email.com",
@@ -24,7 +24,7 @@ describe("auth", () => {
         })
 
         // saving the test user to the database
-        await user1.save()
+        await user.save()
     })
     afterEach(async () => {
         server.close()
@@ -38,7 +38,7 @@ describe("auth", () => {
     }
     const setValidAccessToken = () => {
         // generating an access token
-        accessToken = user1.generateAccessToken()
+        accessToken = user.generateAccessToken()
     }
 
     it("should return 401 if no access token is provided", async () => {
